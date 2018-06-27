@@ -1,0 +1,13 @@
+.event-div {
+    padding: 1em;
+    border-bottom: 1px solid #dadbdf;
+}
+
+.left-side>div {
+    margin-right: 1em;
+}
+
+.check-img {
+    height: 25px;
+    width: auto;
+}

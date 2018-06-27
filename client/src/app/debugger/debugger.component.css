@@ -1,0 +1,38 @@
+.debugger-div {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.header-div {
+    width: 100%;
+    padding: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ced0d4;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+.search-div {
+    width: calc(100% - 200px);
+}
+
+.search-input {
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: 2px solid black;
+    border-style: none;
+    font-size: x-large;
+    padding-left: 30px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; 
+}
+
+.event-container {
+    padding-top: 83px;
+}

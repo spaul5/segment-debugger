@@ -1,0 +1,38 @@
+body {
+    margin: 0px !important;
+}
+
+.segment-btn {
+    border-radius: 5px;
+    height: 50px;
+    width: 80px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.segment-btn-default {
+    background-color: #f6f7f9;
+    border-color: #ced0d4;
+    color: #4b4f56;
+}
+
+.segment-btn-selected {
+    background-color: #c3d0e9;
+    border-color: #c2c3c7;
+    color: #365899;
+}
+
+.point {
+    cursor: pointer;
+}
+
+button:focus {outline:0;}
+
+.segment-font {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.center-vertical {
+    margin-top: auto;
+    margin-bottom: auto;
+}

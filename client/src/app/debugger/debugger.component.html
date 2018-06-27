@@ -1,0 +1,18 @@
+<div class="debugger-div">
+  <div class="header-div" fxLayout="row" fxLayoutAlign="space-between">
+    <div class="button-div">
+      <button class="segment-btn segment-btn-default" (click)="connectToSocket()" [ngClass]="{'segment-btn-selected': live, 'point': !live }">Live</button>
+      <button class="segment-btn segment-btn-default" (click)="unsubscribeToChannel()" [ngClass]="{'segment-btn-selected': !live, 'point': live }">Pause</button>
+    </div>
+    <div class="search-div">
+      <input class="search-input segment-font" type="text" name="search" [(ngModel)]="searchQuery" placeholder="Type to search..." (keyup)="onKey($event)" autofocus>
+    </div>
+  </div>
+  
+  <div *ngIf="searchEvents.length == 0"class="event-container">
+    <app-event *ngFor="let e of events" [event]="e"></app-event>
+  </div>
+  <div *ngIf="searchEvents.length >= 0"class="event-container">
+    <app-event *ngFor="let e of searchEvents" [event]="e"></app-event>
+  </div>
+</div>
