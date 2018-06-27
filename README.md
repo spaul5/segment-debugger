@@ -16,5 +16,5 @@ This should open up the app in a new tab on your browser.
 If not, go to localhost:4200
 
 To stop running the app
-control-c in both terminal windows
-go to the segment-debugger directory and run "docker-compose down"
+control-c in both terminal windows,
+go to the segment-debugger directory, and then run "docker-compose down"
