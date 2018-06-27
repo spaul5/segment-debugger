@@ -9,7 +9,7 @@ To run app:
 5. "cd server"
 5. "npm install && node src/api-server.js"
 6. open up a new terminal tab with (command/control)-t
-7. "cd client"
+7. "cd ../client"
 8. "npm install && npm run start"
 
 This should open up the app in a new tab on your browser.
