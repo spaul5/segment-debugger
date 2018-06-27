@@ -9,12 +9,12 @@ To run app:
 5. "cd server"
 5. "npm install && node src/api-server.js"
 6. open up a new terminal tab with (command/control)-t
-7. "cd client"
+7. "cd ../client"
 8. "npm install && npm run start"
 
 This should open up the app in a new tab on your browser.
 If not, go to localhost:4200
 
 To stop running the app
-control-c in both terminal windows
-go to the segment-debugger directory and run "docker-compose down"
+control-c in both terminal windows,
+go to the segment-debugger directory, and then run "docker-compose down"
