@@ -14,7 +14,6 @@ export class DebuggerComponent {
   private eventStreamSubscription: Subscription
   private events: Event[]
   public live: boolean
-  private subscribed: boolean
   public searchQuery: string
   private query: string
   public searchEvents: Event[]
@@ -23,21 +22,16 @@ export class DebuggerComponent {
     this.events = []
     this.searchEvents = []
     this.live = false
-    this.subscribed = false
   }
 
   ngOnDestroy() {
-    this.unsubscribeToEvents()
+    if (this.live) this.unsubscribeToChannel()
   }
 
   private unsubscribeToEvents() {
     if (this.eventStreamSubscription && !this.eventStreamSubscription.closed)
       this.eventStreamSubscription.unsubscribe()
-    if (this.subscribed) {
-      this.unsubscribeToChannel()
-      this.eventStreamSubscription.unsubscribe()
-      this.apiService.disconnectToSocket()
-    }
+    this.apiService.disconnectToSocket()
   }
 
   private subscribeToChannel() {
@@ -47,11 +41,12 @@ export class DebuggerComponent {
         if (res.status == "error") {
           console.log("err:", res.info)
           this.live = false
+          this.unsubscribeToEvents()
         }
-        this.subscribed = (res.status == "ok")
       }, (err) => {
         console.log("error subscribing to channel. err:", err)
-        this.subscribed = false
+        this.live = false
+        this.unsubscribeToEvents()
       })
   }
 
@@ -61,21 +56,13 @@ export class DebuggerComponent {
 
     this.apiService.unsubscribeToEventChannel()
       .subscribe((res) => {
-        console.log("res:", res)
         if (res.status == "error") {
           console.log("err:", res.info)
-          this.live = true
-        } else {
-          this.eventStreamSubscription.unsubscribe()
-          this.apiService.disconnectToSocket()
         }
-        this.subscribed = (res.status == "error")
       }, (err) => {
-        console.log("error unsubscribing to channel. err:", err)
-        this.subscribed = true
+        console.log("server could not unsubscribe to channel. err:", err)
       }, () => {
-        this.eventStreamSubscription.unsubscribe()
-        this.apiService.disconnectToSocket()
+        this.unsubscribeToEvents()
       })
   }
 
@@ -84,27 +71,27 @@ export class DebuggerComponent {
     this.live = true
 
     this.eventStreamSubscription = this.apiService.connectToSocket().subscribe((message: any) => {
-      if (message.status == "ok") {
-        if (message.info && message.info.indexOf("connected") > -1) {
-          this.subscribeToChannel()
-          console.log("message:", message)
-        } else {
-          // console.log("message:", message)
-          let rawEvent = JSON.parse(message.event)
-          let eventStr = (rawEvent.event)? rawEvent.event: rawEvent.anonymousId
-          let newEvent = new Event(rawEvent.userId, rawEvent.type, eventStr, rawEvent.sentAt, rawEvent.receivedAt, rawEvent)
-          this.events.unshift(newEvent)
-
-          if (this.query && newEvent.containsStr(this.query))
-            this.searchEvents.unshift(newEvent)
-        }
-      } else {
+      if (message.status != "ok") {
         console.log("error:", message.info)
         this.live = false
-        this.eventStreamSubscription.unsubscribe()
-        this.apiService.disconnectToSocket()
+        this.unsubscribeToEvents()
+        return
       }
-    
+
+      if (message.info && message.info.indexOf("connected") > -1) {
+        this.subscribeToChannel()
+        console.log("message:", message)
+        return
+      }
+
+      // console.log("message:", message)
+      let rawEvent = JSON.parse(message.event)
+      let eventStr = (rawEvent.event) ? rawEvent.event : rawEvent.anonymousId
+      let newEvent = new Event(rawEvent.userId, rawEvent.type, eventStr, rawEvent.sentAt, rawEvent.receivedAt, rawEvent)
+      this.events.unshift(newEvent)
+
+      if (this.query && newEvent.containsStr(this.query))
+        this.searchEvents.unshift(newEvent)
     })
   }
 
