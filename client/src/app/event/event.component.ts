@@ -17,6 +17,7 @@ export class Event {
   public sentAtStr: string
   public receivedAtDate: Date
   public receivedAtStr: string
+  private searchableAttributes: string[]
 
   constructor(public userID: string, public type: string, public event: string, public sentAtNum: number, public receivedAt: string, public rawJson: any) {
     if (sentAtNum) {
@@ -36,17 +37,20 @@ export class Event {
     }
 
     this.type = type.toUpperCase()
+
+    this.searchableAttributes = []
+    this.addToSearchableAttributes(this.type)
+    this.addToSearchableAttributes(this.event)
+    this.addToSearchableAttributes(this.sentAtStr)
   }
 
   public containsStr(str: string) {
     str = str.toLowerCase()
-    if (this.type.toLowerCase().indexOf(str) > -1)
-      return true
-    else if (this.event.toLowerCase().indexOf(str) > -1)
-      return true
-    else if (this.sentAtStr.toLowerCase().indexOf(str) > -1)
-      return true
-
+    for (let attribute of this.searchableAttributes) {
+      if (attribute.indexOf(str) > -1) {
+        return true
+      }
+    }
     return false
   }
 
@@ -56,5 +60,9 @@ export class Event {
       seconds = "0" + seconds
     }
     return date.getMonth() + '/' + date.getDay() + '/' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ":" + seconds
+  }
+
+  private addToSearchableAttributes(str: string) {
+    this.searchableAttributes.push(str.toLowerCase())
   }
 }

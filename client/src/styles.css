@@ -10,13 +10,13 @@ body {
 }
 
 .segment-btn {
+    cursor: default;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     border-radius: 4px;
     height: 32px;
     width: 89px;
-    /* font-weight: 300; */
     transition: box-shadow 80ms ease-in-out;
     background-image: linear-gradient(to top, rgba(67, 90, 111, 0.04), rgba(255, 255, 255, 0.04));
 }

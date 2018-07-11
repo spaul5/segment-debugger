@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 
 import { Subscription } from 'rxjs/Subscription'
 
@@ -97,9 +97,8 @@ export class DebuggerComponent {
 
   public onKey(e: any) {
     this.query = e.target.value.trim()
-    console.log("query:", this.query)
+    this.searchEvents = []
     if (this.query == "") {
-      this.searchEvents = []
       return
     }
     for (let e of this.events) {
