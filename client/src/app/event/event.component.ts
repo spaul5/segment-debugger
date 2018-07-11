@@ -21,10 +21,7 @@ export class Event {
   constructor(public userID: string, public type: string, public event: string, public sentAtNum: number, public receivedAt: string, public rawJson: any) {
     if (sentAtNum) {
       this.sentAtDate = new Date(sentAtNum)
-      var seconds = this.sentAtDate.getSeconds().toString()
-      if (seconds.length == 1) seconds = "0" + seconds
-      this.sentAtStr = this.sentAtDate.getMonth() + '/' + this.sentAtDate.getDay() + '/' + this.sentAtDate.getFullYear() + ' ' +
-        this.sentAtDate.getHours() + ':' + this.sentAtDate.getMinutes() + ":" + seconds
+      this.sentAtStr = this.setDateString(this.sentAtDate)
     } else {
       this.sentAtDate = null
       this.sentAtStr = "N/A"
@@ -32,8 +29,7 @@ export class Event {
 
     if (receivedAt) {
       this.receivedAtDate = new Date(receivedAt)
-      this.receivedAtStr = this.receivedAtDate.getMonth() + '/' + this.receivedAtDate.getDay() + '/' + this.receivedAtDate.getFullYear() + ' ' +
-        this.receivedAtDate.getHours() + ':' + this.receivedAtDate.getMinutes() + ":" + this.receivedAtDate.getSeconds()
+      this.receivedAtStr = this.setDateString(this.receivedAtDate)
     } else {
       this.receivedAtDate = null
       this.receivedAtStr = "N/A"
@@ -52,5 +48,13 @@ export class Event {
       return true
 
     return false
+  }
+
+  private setDateString(date: Date) {
+    let seconds = date.getSeconds().toString()
+    if (seconds.length == 1) {
+      seconds = "0" + seconds
+    }
+    return date.getMonth() + '/' + date.getDay() + '/' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ":" + seconds
   }
 }
