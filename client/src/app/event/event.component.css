@@ -1,13 +1,17 @@
 .event-div {
     padding: 1em;
-    border-bottom: 1px solid #dadbdf;
+    border-bottom: 1px solid rgba(67, 90, 111, 0.3);
 }
 
 .left-side>div {
-    margin-right: 1em;
+    margin-right: 2em;
 }
 
 .check-img {
     height: 25px;
     width: auto;
+}
+
+.event-or-id-div {
+    font-weight: 500;
 }
